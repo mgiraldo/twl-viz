@@ -1,11 +1,11 @@
 String[] lines;
-Table data;
-int letterSize = 4; // pixels
+int letterSize = 1; // pixels
 color[] palette = {
-  #a6cee3,
-  #1f78b4,
-  #b2df8a,
-  #33a02c
+  #7fc97f,
+  #beaed4,
+  #fdc086,
+  #ffff99,
+  #386cb0
 };
 
 int currentTranscript = 0;
@@ -18,16 +18,16 @@ int currentY = 0;
 void setup() {
   size(1600, 800);
   background(255);
-  
+  noStroke();
+
   println("loading");
   
   lines = loadStrings("lines.csv");
   
-  data = new Table();
-  data.addColumn("words");
-  data.addColumn("status");
-
-  println(lines.length + " total rows in table"); 
+  println(lines.length + " total rows in table");
+  
+  currentX = margin;
+  currentY = margin;
 }
 
 void draw() {
@@ -37,20 +37,33 @@ void draw() {
   int sequence = int(row[3]);
   int status = int(row[4]);
   String text = row[2];
-  TableRow dataRow = data.addRow();
-  dataRow.setInt("status", status);
   String words[] = text.split(" ");
-  String countStrings = "";
-  int counts[] = new int[words.length];
+
+  fill(palette[status]);
+
   for (int j = 0; j < words.length; j++) {
-    counts[j] = words[j].length();
+    int count = words[j].length();
+    rect(currentX, currentY, count * letterSize, letterSize);
+    
+    currentX = currentX + count * letterSize;
+    
+    if (j+1 < words.length && currentX > margin) {
+      currentX = currentX + letterSize;
+    }
+
+    if (currentX > width - margin) {
+      currentX = margin;
+      currentY = currentY + letterSize * 2;
+    }
   }
-  countStrings = counts.toString();
-  dataRow.setString("words", text);
-  fill(palette[0]);
-  rect(100,100,10,10);
   
   if (currentLine < lines.length - 1) {
     currentLine = currentLine + 1;
+    if (currentX > margin) currentX = currentX + letterSize;
+  }
+  
+  if (currentX > width - margin) {
+    currentX = margin;
+    currentY = currentY + letterSize * 2;
   }
 }
