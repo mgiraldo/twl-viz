@@ -14,7 +14,7 @@ int currentNeighborhood = 0;
 int currentTranscript = 0;
 int currentLine = 1;
 int columnWidth = 200;
-int margin = 50;
+int margin = 20;
 int currentX = 0;
 int currentY = 0;
 
@@ -88,11 +88,11 @@ void startNeighborhood() {
 }
 
 void startTranscript() {
-  currentX = margin;
-  if (currentY > margin) currentY = currentY + letterSize * 2;
+  //currentX = margin;
+  //if (currentY > margin) currentY = currentY + letterSize * 2;
   fill(0);
-  rect(currentX, currentY, letterSize * 4, letterSize * 4);
-  currentY = currentY + letterSize * 5;
+  rect(currentX, currentY, letterSize * 2, letterSize);
+  currentX = currentX + letterSize * 3;
 }
 
 void getLineInfo() {
@@ -103,7 +103,7 @@ void getLineInfo() {
   
   if (cid != currentNeighborhood) {
     currentNeighborhood = cid;
-    startNeighborhood();
+    //startNeighborhood();
   }
   
   if (id != currentId) {
