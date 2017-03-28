@@ -8,6 +8,9 @@ color[] palette = {
   #33a02c
 };
 
+int currentTranscript = 0;
+int currentLine = 0;
+
 void setup() {
   
   size(1600, 800);
@@ -30,11 +33,12 @@ void setup() {
     TableRow dataRow = data.addRow();
     dataRow.setInt("status", status);
     String words[] = text.split(" ");
-    String counts = "";
-    if (words.length > 1) {
-      
-      for (int j = 0; j < words.length(); j++) {
-        
+    String countStrings = "";
+    int counts[] = new int[words.length];
+    for (int j = 0; j < words.length; j++) {
+      counts[j] = words[j].length();
+    }
+    countStrings = counts.toString();
     dataRow.setString("words", text);
   }
   
