@@ -1,5 +1,7 @@
 String[] lines;
+Table transcripts;
 int letterSize = 1; // pixels
+int imageSize = 10;
 color[] palette = {
   #7fc97f,
   #beaed4,
@@ -8,39 +10,44 @@ color[] palette = {
   #386cb0
 };
 
+int currentNeighborhood = 0;
 int currentTranscript = 0;
-int currentLine = 0;
+int currentLine = 1;
 int columnWidth = 200;
 int margin = 50;
 int currentX = 0;
 int currentY = 0;
 
+int currentStatus;
+int currentId = -1;
+String currentText;
+
 void setup() {
-  size(1600, 800);
+  size(1400, 1867);
   background(255);
   noStroke();
+  frameRate(120);
 
   println("loading");
   
   lines = loadStrings("lines.csv");
   
-  println(lines.length + " total rows in table");
+  println(lines.length + " total lines");
   
+  transcripts = loadTable("transcripts.csv", "header");
+  
+  println(transcripts.getRowCount() + " total transcripts");
+
   currentX = margin;
   currentY = margin;
 }
 
 void draw() {
-  String line = lines[currentLine];
-  String row[] = line.split(",");
-  int id = int(row[0]);
-  int sequence = int(row[1]);
-  int status = int(row[4]);
-  String text = row[3].equals("\"\"") ? row[2] : row[3];
-  text = text.replaceAll("\"", "");
-  String words[] = text.split(" ");
+  getLineInfo();
 
-  fill(palette[status]);
+  String words[] = currentText.split(" ");
+
+  fill(palette[currentStatus]);
 
   for (int j = 0; j < words.length; j++) {
     int count = words[j].length();
@@ -67,4 +74,43 @@ void draw() {
     currentX = margin;
     currentY = currentY + letterSize * 2;
   }
+  
+  //println(currentLine);
+}
+
+void startNeighborhood() {
+  PImage img;
+  img = loadImage("images/n" + currentNeighborhood + "m.jpg");
+  currentX = margin;
+  if (currentY > margin) currentY = currentY + letterSize;
+  image(img, currentX, currentY);
+  currentY = currentY + imageSize;
+}
+
+void startTranscript() {
+  currentX = margin;
+  if (currentY > margin) currentY = currentY + letterSize * 2;
+  fill(0);
+  rect(currentX, currentY, letterSize * 4, letterSize * 4);
+  currentY = currentY + letterSize * 5;
+}
+
+void getLineInfo() {
+  String line = lines[currentLine];
+  String row[] = line.split(",");
+  int id = int(row[1]);
+  int cid = int(row[0]);
+  
+  if (cid != currentNeighborhood) {
+    currentNeighborhood = cid;
+    startNeighborhood();
+  }
+  
+  if (id != currentId) {
+    currentId = id;
+    startTranscript();
+  }
+  currentStatus = int(row[5]);
+  currentText = row[4].equals("\"\"") ? row[3] : row[4];
+  currentText = currentText.replaceAll("\"", "");
 }
