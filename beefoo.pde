@@ -32,11 +32,12 @@ void setup() {
 
 void draw() {
   String line = lines[currentLine];
-  String row[] = line.split(";");
+  String row[] = line.split(",");
   int id = int(row[0]);
-  int sequence = int(row[3]);
+  int sequence = int(row[1]);
   int status = int(row[4]);
-  String text = row[2];
+  String text = row[3].equals("\"\"") ? row[2] : row[3];
+  text = text.replaceAll("\"", "");
   String words[] = text.split(" ");
 
   fill(palette[status]);
