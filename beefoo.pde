@@ -85,7 +85,7 @@ void drawLines() {
     
     // check to make sure rect is in margin bounds
     if (currentX + w > width - margin) {
-      currentX = margin + collectionWidth + transcriptWidth;
+      currentX = margin + collectionWidth + transcriptWidth + letterSize;
       currentY = currentY + letterSize * 2;
     }
 
@@ -98,20 +98,20 @@ void drawLines() {
     //}
 
     if (currentX > width - margin) {
-      currentX = margin + collectionWidth + transcriptWidth;
+      currentX = margin + collectionWidth + transcriptWidth + letterSize;
       currentY = currentY + letterSize * 2;
     }
   }
   
   if (currentLine < lines.length - 1) {
     currentLine = currentLine + 1;
-    if (currentX > margin) currentX = currentX + letterSize;
+    //if (currentX > margin) currentX = currentX + letterSize;
   } else {
     drewLines = true;
   }
   
   if (currentX > width - margin) {
-    currentX = margin + collectionWidth + transcriptWidth;
+    currentX = margin + collectionWidth + transcriptWidth + letterSize;
     currentY = currentY + letterSize * 2;
   }
   
@@ -181,7 +181,7 @@ void drawTranscripts() {
     currentY += letterSize;
   }
   
-  currentX = margin + collectionWidth + transcriptWidth;
+  currentX = margin + collectionWidth + transcriptWidth + letterSize;
   currentY = margin;
   drewTranscripts = true;
 }
