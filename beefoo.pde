@@ -26,6 +26,8 @@ color[] transcriptPalette = {
   #c0c0c0
 };
 
+int[] selected = {89, 97, 447, 478, 143, 150, 536, 358};
+
 int collectionWidth = 50;
 int transcriptWidth = 50;
 
@@ -46,6 +48,7 @@ boolean drewLines = false;
 
 void setup() {
   size(792, 1224);
+  noSmooth();
   background(255);
   noStroke();
   frameRate(120);
@@ -61,6 +64,8 @@ void setup() {
   transcriptLengths = loadTable("transcript_lengths.csv", "header");
 
   transcripts = loadTable("transcripts.csv", "header");
+  transcripts.addColumn("x");
+  transcripts.addColumn("y");
 
   currentX = margin;
   currentY = margin;
@@ -149,6 +154,13 @@ float scaleLength(int count) {
   return c/max;
 }
 
+boolean findId(int id) {
+  for (int i = 0; i < selected.length; i++) {
+    if (selected[i] == id) return true;
+  }
+  return false;
+}
+
 void drawTranscripts() {
   int i = 0;
   
@@ -162,7 +174,11 @@ void drawTranscripts() {
     
     i++;
     
-    fill(transcriptPalette[i%transcriptPalette.length]);
+    if (!findId(int(id))) {
+      fill(transcriptPalette[i%transcriptPalette.length]);
+    } else {
+      fill(0);
+    }
     
     TableRow result = transcriptLengths.findRow(id, "transcript_id");
 
@@ -178,6 +194,8 @@ void drawTranscripts() {
     float w = 0;
     if (count > 0) w = transcriptWidth * scaleLength(count);
     rect(currentX, currentY, ceil(w), letterSize);
+    row.setInt("x", currentX + ceil(w));
+    row.setInt("y", currentY);
     currentY += letterSize;
   }
   
@@ -200,6 +218,11 @@ void startTranscript() {
   //if (currentY > margin) currentY = currentY + letterSize * 2;
   fill(0);
   rect(currentX, currentY, letterSize * 2, letterSize);
+  //TableRow result = transcripts.findRow(str(currentId), "id");
+  //stroke(#d0d0d0);
+  //strokeWeight(1);
+  //line(currentX, currentY, result.getInt("x"), result.getInt("y"));
+  //noStroke();
   currentX = currentX + letterSize * 3;
   println("interview:", currentId);
 }
