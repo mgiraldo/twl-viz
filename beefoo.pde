@@ -75,7 +75,7 @@ void draw() {
   
   if (currentLine < lines.length - 1) {
     currentLine = currentLine + 1;
-    if (currentX > margin) currentX = currentX + letterSize;
+    //if (currentX > margin) currentX = currentX + letterSize;
   }
   
   if (currentX > width - margin) {
@@ -100,7 +100,7 @@ void startTranscript() {
   //if (currentY > margin) currentY = currentY + letterSize * 2;
   fill(0);
   rect(currentX, currentY, letterSize * 2, letterSize);
-  currentX = currentX + letterSize * 3;
+  currentX = currentX + letterSize * 2;
 }
 
 void getLineInfo() {
