@@ -14,7 +14,7 @@ int currentNeighborhood = 0;
 int currentTranscript = 0;
 int currentLine = 1;
 int columnWidth = 200;
-int margin = 20;
+int margin = 10;
 int currentX = 0;
 int currentY = 0;
 
@@ -23,7 +23,7 @@ int currentId = -1;
 String currentText;
 
 void setup() {
-  size(1400, 1867);
+  size(1200, 1858);
   background(255);
   noStroke();
   frameRate(120);
@@ -113,4 +113,10 @@ void getLineInfo() {
   currentStatus = int(row[5]);
   currentText = row[4].equals("\"\"") ? row[3] : row[4];
   currentText = currentText.replaceAll("\"", "");
+}
+
+void keyPressed() {
+  if (key == 's') {
+    saveFrame("output.png");
+  }
 }
