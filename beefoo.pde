@@ -4,7 +4,7 @@ int letterSize = 1; // pixels
 int imageSize = 10;
 color[] palette = {
   #7fc97f,
-  #beaed4,
+  #cccccc,
   #fdc086,
   #ffff99,
   #386cb0
@@ -23,7 +23,7 @@ int currentId = -1;
 String currentText;
 
 void setup() {
-  size(1200, 1858);
+  size(792, 1224);
   background(255);
   noStroke();
   frameRate(120);
