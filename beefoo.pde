@@ -6,20 +6,19 @@ int letterSize = 1; // pixels
 int imageSize = 10;
 color[] palette = {
   #7fc97f,
-  #cccccc,
+  #beaed4,
   #7fc97f,
-  #fdc086,
+  //#fdc086,
   #ffff99,
   #386cb0
 };
 
 color[] collectionPalette = {
-  #ffff00,
-  #00ffff,
-  #00ff00,
-  #cc99ff,
-  #ff0000,
-  #3366ff
+  #66c2a5,
+  #fc8d62,
+  #8da0cb,
+  #e78ac3,
+  #a6d854
 };
 
 color[] transcriptPalette = {
@@ -33,7 +32,7 @@ int transcriptWidth = 50;
 int currentNeighborhood = 0;
 int currentLine = 1;
 int columnWidth = 200;
-int margin = 5;
+int margin = 50;
 int currentX = 0;
 int currentY = 0;
 
@@ -43,16 +42,17 @@ String currentText;
 
 boolean drewNeighborhoods = false;
 boolean drewTranscripts = false;
+boolean drewLines = false;
 
 void setup() {
-  size(1836, 1188);
+  size(792, 1224);
   background(255);
   noStroke();
   frameRate(120);
 
   println("loading");
   
-  lines = loadStrings("lines_senior.csv");
+  lines = loadStrings("lines_poster.csv");
   println(lines.length + " total lines");
   
   collections = loadTable("collections.csv", "header");
@@ -69,7 +69,7 @@ void setup() {
 void draw() {
   if (!drewNeighborhoods) drawNeighborhoods();
   if (!drewTranscripts) drawTranscripts();
-  drawLines();
+  if (!drewLines) drawLines();
 }
 
 void drawLines() {
@@ -106,6 +106,8 @@ void drawLines() {
   if (currentLine < lines.length - 1) {
     currentLine = currentLine + 1;
     if (currentX > margin) currentX = currentX + letterSize;
+  } else {
+    drewLines = true;
   }
   
   if (currentX > width - margin) {
@@ -171,7 +173,7 @@ void drawTranscripts() {
       count = 0;
     }
     
-    println(count, log10(count));
+    //println(count, log10(count));
     
     float w = 0;
     if (count > 0) w = transcriptWidth * scaleLength(count);
@@ -198,7 +200,7 @@ void startTranscript() {
   //if (currentY > margin) currentY = currentY + letterSize * 2;
   fill(0);
   rect(currentX, currentY, letterSize * 2, letterSize);
-  currentX = currentX + letterSize * 2;
+  currentX = currentX + letterSize * 3;
   println("interview:", currentId);
 }
 
@@ -207,7 +209,7 @@ void getLineInfo() {
   //while (!found) {
     String line = lines[currentLine];
     String row[] = line.split(",");
-    int id = int(row[1]);
+    int id = int(row[0]);
     //int cid = int(row[0]);
     int status = int(row[3]);
     
@@ -219,10 +221,10 @@ void getLineInfo() {
       //  //startNeighborhood();
       //}
       
-      //if (id != currentId) {
-      //  currentId = id;
-      //  startTranscript();
-      //}
+      if (id != currentId) {
+        currentId = id;
+        startTranscript();
+      }
       currentStatus = status;
       currentText = row[2].equals("\"\"") ? row[1] : row[2];
       currentText = currentText.replaceAll("\"", "");
