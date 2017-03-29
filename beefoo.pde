@@ -49,8 +49,8 @@ void draw() {
 
   fill(palette[currentStatus]);
 
-  for (int j = 0; j < words.length; j++) {
-    int count = words[j].length();
+  //for (int j = 0; j < words.length; j++) {
+    int count = words.length;//words[j].length();
     int w = count * letterSize;
     
     // check to make sure rect is in margin bounds
@@ -63,15 +63,15 @@ void draw() {
     
     currentX = currentX + w;
     
-    if (j+1 < words.length && currentX > margin) {
-      currentX = currentX + letterSize;
-    }
+    //if (j+1 < words.length && currentX > margin) {
+    //  currentX = currentX + letterSize;
+    //}
 
     if (currentX > width - margin) {
       currentX = margin;
       currentY = currentY + letterSize * 2;
     }
-  }
+  //}
   
   if (currentLine < lines.length - 1) {
     currentLine = currentLine + 1;
