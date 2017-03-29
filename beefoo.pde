@@ -11,7 +11,6 @@ color[] palette = {
 };
 
 int currentNeighborhood = 0;
-int currentTranscript = 0;
 int currentLine = 1;
 int columnWidth = 200;
 int margin = 5;
@@ -101,6 +100,7 @@ void startTranscript() {
   fill(0);
   rect(currentX, currentY, letterSize * 2, letterSize);
   currentX = currentX + letterSize * 2;
+  println("interview:", currentId);
 }
 
 void getLineInfo() {
