@@ -14,7 +14,7 @@ int currentNeighborhood = 0;
 int currentTranscript = 0;
 int currentLine = 1;
 int columnWidth = 200;
-int margin = 10;
+int margin = 5;
 int currentX = 0;
 int currentY = 0;
 
@@ -51,9 +51,17 @@ void draw() {
 
   for (int j = 0; j < words.length; j++) {
     int count = words[j].length();
-    rect(currentX, currentY, count * letterSize, letterSize);
+    int w = count * letterSize;
     
-    currentX = currentX + count * letterSize;
+    // check to make sure rect is in margin bounds
+    if (currentX + w > width - margin) {
+      currentX = margin;
+      currentY = currentY + letterSize * 2;
+    }
+
+    rect(currentX, currentY, w, letterSize);
+    
+    currentX = currentX + w;
     
     if (j+1 < words.length && currentX > margin) {
       currentX = currentX + letterSize;
