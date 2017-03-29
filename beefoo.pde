@@ -50,7 +50,7 @@ void draw() {
 
   //for (int j = 0; j < words.length; j++) {
     int count = words.length;//words[j].length();
-    int w = count * letterSize;
+    int w = ceil((count * letterSize) / 2);
     
     // check to make sure rect is in margin bounds
     if (currentX + w > width - margin) {
